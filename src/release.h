@@ -1,3 +1,3 @@
-#define REDIS_GIT_SHA1 "646f6e2f"
-#define REDIS_GIT_DIRTY "162"
-#define REDIS_BUILD_ID "computer-1622984871"
+#define REDIS_GIT_SHA1 "9acf7fae"
+#define REDIS_GIT_DIRTY "0"
+#define REDIS_BUILD_ID "computer-1622987263"
