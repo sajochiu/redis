@@ -1015,6 +1015,7 @@ int redisGetReply(redisContext *c, void **reply) {
     int wdone = 0;
     void *aux = NULL;
 
+    // reply from redis-server will be stored in "aux"
     /* Try to read pending replies */
     if (redisGetReplyFromReader(c,&aux) == REDIS_ERR)
         return REDIS_ERR;
@@ -1041,6 +1042,7 @@ int redisGetReply(redisContext *c, void **reply) {
         } while (aux == NULL);
     }
 
+    // reply = aux
     /* Set reply or free it if we were passed NULL */
     if (reply != NULL) {
         *reply = aux;

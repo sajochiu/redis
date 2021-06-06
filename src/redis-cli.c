@@ -64,6 +64,9 @@
 #include "cli_common.h"
 #include "mt19937-64.h"
 
+// for timeout on a function
+#include <pthread.h>
+
 #define UNUSED(V) ((void) V)
 
 #define OUTPUT_STANDARD 0
@@ -1278,6 +1281,7 @@ static int cliReadReply(int output_raw_strings) {
     sds out = NULL;
     int output = 1;
 
+    // haha redisGetReply
     if (redisGetReply(context,&_reply) != REDIS_OK) {
         if (config.shutdown) {
             redisFree(context);
@@ -1339,6 +1343,7 @@ static int cliReadReply(int output_raw_strings) {
 
     if (output) {
         out = cliFormatReply(reply, config.output, output_raw_strings);
+        // haha print the output on terminal
         fwrite(out,sdslen(out),1,stdout);
         sdsfree(out);
     }
@@ -1452,7 +1457,7 @@ static int cliSendCommand(int argc, char **argv, long repeat) {
             zfree(argvlen);
             return REDIS_ERR;  /* Error = slaveMode lost connection to master */
         }
-
+        // haha cliReadReply
         if (cliReadReply(output_raw) != REDIS_OK) {
             zfree(argvlen);
             return REDIS_ERR;
@@ -2025,6 +2030,7 @@ static sds *getSdsArrayFromArgv(int argc, char **argv, int quoted) {
 static int issueCommandRepeat(int argc, char **argv, long repeat) {
     while (1) {
         config.cluster_reissue_command = 0;
+        // haha
         if (cliSendCommand(argc,argv,repeat) != REDIS_OK) {
             cliConnect(CC_FORCE);
 
@@ -2166,6 +2172,30 @@ static int isSensitiveCommand(int argc, char **argv) {
     return 0;
 }
 
+pthread_mutex_t lockTSTRAIN;
+
+void *timeoutTSTRAIN(void *arguments) {
+    sleep(2);
+    char stars[10000];
+    strcpy(stars, "*");
+    int *flag = (int *)arguments;
+    if (*flag == 0) {
+        printf("Please wait a minute...\n\n");
+        for (int i=0; i<100; i++) {
+            sleep(1);
+            if (*flag == 0) {
+                fflush(stdout);
+                printf("\r%s", stars);
+                strcat(stars, "*");
+            }
+            else {
+                printf("\n");
+                break;
+            }
+        }    
+    }
+}
+
 static void repl(void) {
     sds historyfile = NULL;
     int history = 0;
@@ -2265,10 +2295,32 @@ static void repl(void) {
             } else if (argc == 1 && !strcasecmp(argv[0],"clear")) {
                 linenoiseClearScreen();
             } else {
-                long long start_time = mstime(), elapsed;
+                //long long start_time = mstime(), elapsed;
 
+                pthread_t tid;
+                int flag = 0;
+                int ret = 0;
+                if (!strcasecmp(argv[0], "TS.TRAIN")) {
+                /*
+                    ret = pthread_mutex_init(&lockTSTRAIN, NULL);
+                    if(ret != 0)
+                        printf("SHIT.\n");
+                */
+                    ret = pthread_create(&tid, NULL, &timeoutTSTRAIN, (void *)&flag);
+                    if(ret != 0) {
+                        printf("pthread_create error!\n");
+                        exit(1);
+                    }
+                }
+                
+                // haha
                 issueCommandRepeat(argc-skipargs, argv+skipargs, repeat);
-
+                if (!strcasecmp(argv[0], "TS.TRAIN")) {
+                    flag = 1;
+                    pthread_join(tid, NULL);
+                    //pthread_mutex_destroy(&lockTSTRAIN);
+                    printf("\n");
+                }
                 /* If our debugging session ended, show the EVAL final
                     * reply. */
                 if (config.eval_ldb_end) {
@@ -2279,12 +2331,13 @@ static void repl(void) {
                         " -- dataset changes rolled back");
                 }
 
-                elapsed = mstime()-start_time;
-                if (elapsed >= 500 &&
-                    config.output == OUTPUT_STANDARD)
-                {
-                    printf("(%.2fs)\n",(double)elapsed/1000);
-                }
+                // haha
+                // elapsed = mstime()-start_time;
+                // if (elapsed >= 500 &&
+                //     config.output == OUTPUT_STANDARD)
+                // {
+                //     printf("(%.2fs)\n",(double)elapsed/1000);
+                // }
             }
             /* Free the argument vector */
             sdsfreesplitres(argv,argc);
@@ -8464,6 +8517,7 @@ int main(int argc, char **argv) {
         /* Note that in repl mode we don't abort on connection error.
          * A new attempt will be performed for every command send. */
         cliConnect(0);
+        // haha
         repl();
     }
 
