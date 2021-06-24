@@ -1,0 +1,41 @@
+Performing stepwise search to minimize aic
+ ARIMA(1,1,1)(0,1,1)[12]             : AIC=2458.373, Time=0.66 sec
+ ARIMA(0,1,0)(0,1,0)[12]             : AIC=2806.592, Time=0.06 sec
+ ARIMA(1,1,0)(1,1,0)[12]             : AIC=2652.227, Time=0.27 sec
+ ARIMA(0,1,1)(0,1,1)[12]             : AIC=2547.323, Time=0.42 sec
+ ARIMA(1,1,1)(0,1,0)[12]             : AIC=inf, Time=0.26 sec
+ ARIMA(1,1,1)(1,1,1)[12]             : AIC=2459.958, Time=0.73 sec
+ ARIMA(1,1,1)(0,1,2)[12]             : AIC=2459.766, Time=1.67 sec
+ ARIMA(1,1,1)(1,1,0)[12]             : AIC=2550.711, Time=0.61 sec
+ ARIMA(1,1,1)(1,1,2)[12]             : AIC=inf, Time=10.95 sec
+ ARIMA(1,1,0)(0,1,1)[12]             : AIC=2553.172, Time=0.65 sec
+ ARIMA(2,1,1)(0,1,1)[12]             : AIC=2450.961, Time=1.52 sec
+ ARIMA(2,1,1)(0,1,0)[12]             : AIC=2686.625, Time=0.69 sec
+ ARIMA(2,1,1)(1,1,1)[12]             : AIC=2452.362, Time=2.27 sec
+ ARIMA(2,1,1)(0,1,2)[12]             : AIC=2452.109, Time=4.43 sec
+ ARIMA(2,1,1)(1,1,0)[12]             : AIC=2550.647, Time=1.35 sec
+ ARIMA(2,1,1)(1,1,2)[12]             : AIC=inf, Time=21.13 sec
+ ARIMA(2,1,0)(0,1,1)[12]             : AIC=2516.117, Time=1.11 sec
+ ARIMA(3,1,1)(0,1,1)[12]             : AIC=2451.562, Time=3.20 sec
+ ARIMA(2,1,2)(0,1,1)[12]             : AIC=2451.424, Time=3.99 sec
+ ARIMA(1,1,2)(0,1,1)[12]             : AIC=2449.860, Time=3.70 sec
+ ARIMA(1,1,2)(0,1,0)[12]             : AIC=2686.205, Time=0.99 sec
+ ARIMA(1,1,2)(1,1,1)[12]             : AIC=2451.339, Time=2.17 sec
+ ARIMA(1,1,2)(0,1,2)[12]             : AIC=2451.117, Time=5.00 sec
+ ARIMA(1,1,2)(1,1,0)[12]             : AIC=2549.828, Time=1.92 sec
+ ARIMA(1,1,2)(1,1,2)[12]             : AIC=inf, Time=12.26 sec
+ ARIMA(0,1,2)(0,1,1)[12]             : AIC=2475.002, Time=1.01 sec
+ ARIMA(1,1,3)(0,1,1)[12]             : AIC=2451.457, Time=2.72 sec
+ ARIMA(0,1,3)(0,1,1)[12]             : AIC=2459.050, Time=1.42 sec
+ ARIMA(2,1,3)(0,1,1)[12]             : AIC=2453.322, Time=3.88 sec
+ ARIMA(1,1,2)(0,1,1)[12] intercept   : AIC=2451.536, Time=6.49 sec
+
+Best model:  ARIMA(1,1,2)(0,1,1)[12]          
+Total fit time: 97.555 seconds
+
+
+write to file: ./arima.pkl
+
+predict result file: train_result.jpg
+
+-------------------------------------------
